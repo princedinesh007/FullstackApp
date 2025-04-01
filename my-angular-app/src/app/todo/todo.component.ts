@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ApicallService } from '../apicall.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-todo',
@@ -9,35 +10,57 @@ import { ApicallService } from '../apicall.service';
 export class TodoComponent {
   todo:any=[];
   addItem:any;
-
+  editItem:any;
+  editItemId:any;
+  isOpen:boolean=false;
+  delete:boolean=false;
+  
   public TodoList=inject(ApicallService);
+  
+  constructor(public modalService: NgbModal) {}
 
 ngOnInit()
 {
   this.getItem();
 }
+
 getItem()
 {
   this.TodoList.getTodo().subscribe((res)=>{
     this.todo=res;
-    console.log(this.todo)
   })
 }
 postTodo()
 {
 const todoData = { Todo_activity: this.addItem };
  this.TodoList.postTodo(todoData).subscribe((res:any)=>{
-   alert(res.message);
-   console.log(res)
-   this.getItem();
+  this.isOpen=true;
+  this.getItem();
+  this.addItem=''
  })
 }
 deleteTodo(item:any)
 {
-  console.log(item)
   this.TodoList.deleteTodo(item).subscribe((res:any)=>{
-    alert(res.message);
+    this.delete=true;
     this.getItem();
   })
+}
+
+edit_data(id:any)
+{
+   const item= this.todo.find((id:any)=>id==id);
+   if (item) {
+    this.editItem = item.Todo_activity;
+    this.editItemId=item._id
+  }
+}
+updateTodo(modal:any)
+{
+  const todoData = { Todo_activity: this.editItem };
+  this.TodoList.updateTodo(this.editItemId,todoData).subscribe((res:any)=>{
+    this.getItem();
+  })
+
 }
 }

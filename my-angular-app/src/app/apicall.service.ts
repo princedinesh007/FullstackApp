@@ -22,4 +22,8 @@ export class ApicallService {
   {
     return this.http.delete(`${this.url}/deleteTodo/${id}`)
   }
+  updateTodo(id:any,data:any)
+  {
+    return this.http.put(`${this.url}/updateTodo/${id}`,data)
+  }
 }
