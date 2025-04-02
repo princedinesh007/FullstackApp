@@ -37,6 +37,8 @@ const todoData = { Todo_activity: this.addItem };
   this.isOpen=true;
   this.getItem();
   this.addItem=''
+ },(error)=>{
+  console.error(error.error.message)
  })
 }
 deleteTodo(item:any)
@@ -49,16 +51,16 @@ deleteTodo(item:any)
 
 edit_data(id:any)
 {
-   const item= this.todo.find((id:any)=>id==id);
+   const item= this.todo.find((item:any)=>item._id==id);
    if (item) {
     this.editItem = item.Todo_activity;
     this.editItemId=item._id
   }
 }
-updateTodo(modal:any)
+updateTodo(itemId:any)
 {
   const todoData = { Todo_activity: this.editItem };
-  this.TodoList.updateTodo(this.editItemId,todoData).subscribe((res:any)=>{
+  this.TodoList.updateTodo(itemId,todoData).subscribe((res:any)=>{
     this.getItem();
   })
 
