@@ -1,0 +1,15 @@
+<h3>{{this.status ? "Register" : "Login"}}</h3>
+<button (click)="toggle()">Toggle</button>
+<div style="display:flex">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="username"> UserName:</label>
+    <input type="text" id="username"  name="username" formControlName="username">
+        </div> 
+    <div>
+        <label for="password"> Password:</label>
+        <input type="password" id="password" name="password" formControlName="password"> &nbsp;
+    </div>
+    <button type="submit">{{this.status ? "Register" :"Login"}}</button>
+</form>
+</div>

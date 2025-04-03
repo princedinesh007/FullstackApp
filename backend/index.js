@@ -6,14 +6,15 @@ const user_routes=require("./Routes/UserRoutes");
 require('dotenv').config();
 
 const app = express();
-app.use(cors({
-        origin: "http://localhost:4200",
-        methods: "GET,POST,PUT,DELETE",
-}))
-app.use(express.json());
-
 const url = process.env.DBURL;
 const PORT = 3000;
+
+app.use(cors({
+    origin: "http://localhost:4200",
+    methods: "GET,POST,PUT,DELETE",
+}))
+
+app.use(express.json());
 
 mongoose.connect(url).then(() => {
     console.log("Database Connected")

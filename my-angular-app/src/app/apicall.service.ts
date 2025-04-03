@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,23 +7,36 @@ import { Injectable } from '@angular/core';
 export class ApicallService {
 
   constructor(public http:HttpClient) { }
+  accessToken = localStorage.getItem('accessToken');
 
   url="http://localhost:3000"
 
   getTodo()
   {
-    return this.http.get(`${this.url}/getTodo`);
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.accessToken}`);
+    return this.http.get(`${this.url}/getTodo`,{headers});
   }
   postTodo(data:any)
   {
-    return this.http.post(`${this.url}/createTodo`,data)
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.accessToken}`);
+    return this.http.post(`${this.url}/createTodo`,{headers},data)
   }
   deleteTodo(id:any)
   {
-    return this.http.delete(`${this.url}/deleteTodo/${id}`)
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.accessToken}`);
+    return this.http.delete(`${this.url}/deleteTodo/${id}`,{headers})
   }
   updateTodo(id:any,data:any)
   {
-    return this.http.put(`${this.url}/updateTodo/${id}`,data)
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.accessToken}`);
+    return this.http.put(`${this.url}/updateTodo/${id}`,data,{headers})
+  }
+  register(data:any)
+  {
+    return this.http.post(`${this.url}/register`,data);
+  }
+  login(data:any)
+  {
+    return this.http.post(`${this.url}/signIn`,data);
   }
 }

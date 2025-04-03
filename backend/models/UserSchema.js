@@ -3,11 +3,11 @@ const mongoose=require('mongoose');
 const User=mongoose.Schema({
     username:{
         type:String,
-        requried:[true,"Username Mandatory"]
+        required:[true,"Username Mandatory"]
     },
     password:{
         type:String,
-        requried:[true,"Password Mandatory"]
+        required:[true,"Password Mandatory"]
     }
 });
 

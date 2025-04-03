@@ -1,6 +1,10 @@
+require('dotenv').config();
 const userSchema = require("../models/UserSchema");
 const bcrypt = require("bcrypt");
 const validation=require('../validation/validation');
+const JWT=require('jsonwebtoken');
+const SECRET_KEY=process.env.SECRET_KEY;
+console.log(SECRET_KEY)
 
 const register = async (req, res) => {
   try {
@@ -20,7 +24,12 @@ const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     await userSchema.create({ username, password: hashedPassword });
-    res.status(201).json({ message: "Registered Successfully" });
+
+    // Creating JWT TOKEN
+
+    const Token=JWT.sign({ username: username }, SECRET_KEY, { expiresIn: '3m' });
+
+    res.status(201).json({ message: "Registered Successfully",access_token:Token });
 
     //by using save methd
     // const newUser=new userSchema({username,password:hashedPassword});
@@ -50,7 +59,8 @@ const signIn=async(req,res)=>{
           {
             return res.status(400).json({ message: "Password Mismatch" });
           }
-          res.status(200).json({ message: "Login successful" });
+          const Token=JWT.sign({username},SECRET_KEY,{ expiresIn: '3m' });
+          res.status(200).json({ message: "Login successful",access_token:Token });
     }catch(error)
     {
         console.log(error);
