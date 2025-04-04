@@ -8,6 +8,15 @@ const User=mongoose.Schema({
     password:{
         type:String,
         required:[true,"Password Mandatory"]
+    },
+    email:{
+        type:String,
+    },
+    passwordResetToken:{
+        type:String,
+    },
+    passwordResetTokenExpires:{
+        type:String,
     }
 });
 
